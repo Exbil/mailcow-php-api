@@ -93,9 +93,6 @@ class MailBoxes
         ]);
     }
 
-    //TODO ADD MAILBOXES ACL
-    //TODO ADD MAILBOXES PUSHOVER
-
     /**
      * @return array|string
      */
@@ -103,7 +100,4 @@ class MailBoxes
     {
         return $this->MailCowAPI->post('delete/mailbox', $mails);
     }
-
-    //TODO ADD Quarantine Notifications
-
 }
