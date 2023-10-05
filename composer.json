@@ -1,12 +1,21 @@
 {
     "name": "exbil/mailcow-php-api",
-    "description": "A full-featured implementation of the MailCow API",
     "type": "library",
+    "description": "A full-featured implementation of the MailCow API",
+    "keywords": [
+        "php-api-client",
+        "mailcow-api",
+        "api-client",
+        "mailcow",
+        "rest",
+        "php",
+        "api"
+    ],
     "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Efe Bagri",
-            "email": "info@exbil.net",
+            "email": "composer@exbil.net",
             "homepage": "https://www.exbil.net"
         }
     ],
