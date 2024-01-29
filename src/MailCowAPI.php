@@ -4,11 +4,11 @@
 namespace Exbil;
 
 use GuzzleHttp\Client;
-use Exbil\Aliases\Aliases;
-use Exbil\AntiSpam\AntiSpam;
-use Exbil\Domains\Domains;
-use Exbil\Exception\ParameterException;
-use Exbil\MailBoxes\MailBoxes;
+use Exbil\Mailcow\Aliases\Aliases;
+use Exbil\Mailcow\AntiSpam\AntiSpam;
+use Exbil\Mailcow\Domains\Domains;
+use Exbil\Mailcow\Exception\ParameterException;
+use Exbil\Mailcow\MailBoxes\MailBoxes;
 use Psr\Http\Message\ResponseInterface;
 
 class MailCowAPI

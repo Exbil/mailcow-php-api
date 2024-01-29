@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Exbil\Domains;
+namespace Exbil\Mailcow\Domains;
 
-use Exbil\MailCowAPI;
+use Exbil\Mailcow\MailCowAPI;
 
 class Domains
 {

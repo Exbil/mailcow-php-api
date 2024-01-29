@@ -1,8 +1,8 @@
 <?php
 
-namespace Exbil\AntiSpam;
+namespace Exbil\Mailcow\AntiSpam;
 
-use Exbil\MailCowAPI;
+use Exbil\Mailcow\MailCowAPI;
 
 class AntiSpam
 {
