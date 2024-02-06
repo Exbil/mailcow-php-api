@@ -1,8 +1,8 @@
 <?php
 
-namespace Exbil\Aliases;
+namespace Exbil\Mailcow\Aliases;
 
-use Exbil\MailCowAPI;
+use Exbil\Mailcow\MailCowAPI;
 
 class Aliases
 {
