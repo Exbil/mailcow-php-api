@@ -34,6 +34,8 @@
     "autoload": {
         "psr-4": {
             "Exbil\\Mailcow\\": "src/"
-        }
+        },
+        "files": ["src/MailCowAPI.php", "src/Credentials.php"],
+        "classmap": ["src"]
     }
 }

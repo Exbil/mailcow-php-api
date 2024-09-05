@@ -3,12 +3,27 @@
 
 namespace Exbil;
 
+use Exbil\Mailcow\Ratelimits\Ratelimits;
 use GuzzleHttp\Client;
 use Exbil\Mailcow\Aliases\Aliases;
 use Exbil\Mailcow\AntiSpam\AntiSpam;
+use Exbil\Mailcow\AppPasswords\AppPasswords;
+use Exbil\Mailcow\DKIM\DKIM;
+use Exbil\Mailcow\DomainAdmin\DomainAdmin;
 use Exbil\Mailcow\Domains\Domains;
 use Exbil\Mailcow\Exception\ParameterException;
+use Exbil\Mailcow\FwdHost\FwdHost;
+use Exbil\Mailcow\Quarantine\Quarantine;
+use Exbil\Mailcow\Resources\Resources;
 use Exbil\Mailcow\MailBoxes\MailBoxes;
+use Exbil\Mailcow\QueueManager\QueueManager;
+use Exbil\Mailcow\Fail2Ban\Fail2Ban;
+use Exbil\Mailcow\Status\Status;
+use Exbil\Mailcow\Logs\Logs;
+use Exbil\Mailcow\oAuth\oAuth;
+use Exbil\Mailcow\Routing\Routing;
+use Exbil\Mailcow\AddressRewrite\AddressRewrite;
+use Exbil\Mailcow\TLSPolicy\TLSPolicy;
 use Psr\Http\Message\ResponseInterface;
 
 class MailCowAPI
@@ -20,6 +35,21 @@ class MailCowAPI
     private $antiSpamHandler;
     private $mailBoxesHandler;
     private $aliasesHandler;
+    private $fwdhostsHandler;
+    private $quarantineHandler;
+    private $dkimHandler;
+    private $appPasswordsHandler;
+    private $resourcesHandler;
+    private $ratelimitsHandler;
+    private $fail2banHandler;
+    private $queueManagerHandler;
+    private $statusHandler;
+    private $logsHandler;
+    private $routingHandler;
+    private $oAuthHandler;
+    private $domainAdminHandler;
+    private $addressRewriteHandler;
+    private $tlsPolicyHandler;
 
     /**
      * MailCowAPI constructor.
@@ -196,6 +226,81 @@ class MailCowAPI
     {
         if (!$this->aliasesHandler) $this->aliasesHandler = new Aliases($this);
         return $this->aliasesHandler;
+    }
+
+    public function fwdhosts (): FwdHost {
+        if(!$this->fwdhostsHandler) $this->fwdhostsHandler = new FwdHost($this);
+        return $this->fwdhostsHandler;
+    }
+
+    public function quarantine (): Quarantine {
+        if(!$this->quarantineHandler) $this->quarantineHandler = new Quarantine($this);
+        return $this->quarantineHandler;
+    }
+
+    public function dkim (): DKIM {
+        if(!$this->dkimHandler) $this->dkimHandler = new DKIM($this);
+        return $this->dkimHandler;
+    }
+
+    public function appPasswords (): AppPasswords {
+        if(!$this->appPasswordsHandler) $this->appPasswordsHandler = new AppPasswords($this);
+        return $this->appPasswordsHandler;
+    }
+
+    public function resources (): Resources {
+        if(!$this->resourcesHandler) $this->resourcesHandler = new Resources($this);
+        return $this->resourcesHandler;
+    }
+
+    public function ratelimits (): Ratelimits {
+        if(!$this->ratelimitsHandler) $this->ratelimitsHandler = new Ratelimits($this);
+        return $this->ratelimitsHandler;
+    }
+
+    public function queueManager (): QueueManager {
+        if(!$this->queueManagerHandler) $this->queueManagerHandler = new QueueManager($this);
+        return $this->queueManagerHandler;
+    }
+
+    public function fail2ban (): Fail2Ban {
+        if(!$this->fail2banHandler) $this->fail2banHandler = new Fail2Ban($this);
+        return $this->fail2banHandler;
+    }
+
+    public function status (): Status {
+        if(!$this->statusHandler) $this->statusHandler = new Status($this);
+        return $this->statusHandler;
+    }
+
+    public function logs (): Logs {
+        if(!$this->logsHandler) $this->logsHandler = new Logs($this);
+        return $this->logsHandler;
+    }
+
+    public function routing (): Routing {
+        if(!$this->routingHandler) $this->routingHandler = new Routing($this);
+        return $this->routingHandler;
+    }
+
+    public function oAuth (): oAuth {
+        if(!$this->oAuthHandler) $this->oAuthHandler = new oAuth($this);
+        return $this->oAuthHandler;
+    }
+
+    public function domainAdmin (): DomainAdmin {
+        if(!$this->domainAdminHandler) $this->domainAdminHandler = new DomainAdmin($this);
+        return $this->domainAdminHandler;
+    }
+
+    public function addressRewrite (): AddressRewrite {
+        if(!$this->addressRewriteHandler) $this->addressRewriteHandler = new AddressRewrite($this);
+        return $this->addressRewriteHandler;
+    }
+
+    public function tlsPolicy (): TLSPolicy {
+        if(!$this->tlsPolicyHandler) $this->tlsPolicyHandler = new TLSPolicy($this);
+        return $this->tlsPolicyHandler;
     }
 
 

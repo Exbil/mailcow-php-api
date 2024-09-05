@@ -3,7 +3,7 @@
 
 namespace Exbil\Mailcow\Domains;
 
-use Exbil\Mailcow\MailCowAPI;
+use Exbil\MailCowAPI;
 
 class Domains
 {
