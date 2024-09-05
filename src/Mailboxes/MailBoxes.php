@@ -31,7 +31,7 @@ class MailBoxes
      */
     public function getMailBox(string $domain)
     {
-        return $this->MailCowAPI->get('get/mailbox/' . $domain);
+        return $this->MailCowAPI->get('get/mailbox/all/' . $domain);
     }
 
     /**
