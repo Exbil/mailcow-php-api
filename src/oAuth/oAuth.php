@@ -10,6 +10,11 @@ class oAuth {
         $this->MailCowAPI = $MailCowAPI;
     }
 
+    /**
+     * addClient - Add a oAuth2 client
+     * @param string $redirect_uri E.g. "https://app.domain.tld/callback-mailcow"
+     * @return array
+     */
     public function addClient(string $redirect_uri){
         return $this->MailCowAPI->post('add/oauth2-client', [
             "redirect_uri" => $redirect_uri

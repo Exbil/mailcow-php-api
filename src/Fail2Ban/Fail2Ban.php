@@ -10,6 +10,13 @@ class Fail2Ban {
         $this->MailCowAPI = $MailCowAPI;
     }
 
+    /**
+     * editConfig - Edit Fail2Ban config
+     * @param int $bantimeInMs Time in ms the IP gets banned
+     * @param string $blacklist Blacklist of IPs, e.g. "10.10.10.0/24, 10.100.8.4/32"
+     * @param string $whitelist A whitelist, e.g. "mydomain.com, anotherdomain.org"
+     * @return array
+     */
     public function editConfig(int $bantimeInMs, string $blacklist, int $max_attempts = 5, int $netban_ipv4 = 24, int $netban_ipv6 = 64, int $retry_window = 600, string $whitelist = null){
         return $this->MailCowAPI->post('edit/fail2ban', [
             "attr"=> [

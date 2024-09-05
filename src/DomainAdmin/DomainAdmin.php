@@ -7,7 +7,7 @@ class DomainAdmin
 {
     private $MailCowAPI;
 
-    private $permissions = [
+    public $permissions = [
         "syncjobs",
         "quarantine",
         "login_as",
@@ -31,7 +31,15 @@ class DomainAdmin
         $this->MailCowAPI = $MailCowAPI;
     }
 
-    public function addAdmin(string $domains, string $password, string $password2, string $username)
+    /**
+     * addAdmin - Add an domain admin
+     * @param array $domains Array of domains the user should be domain admin of
+     * @param string $password
+     * @param string $password2 Same password, just again
+     * @param string $username User which gets to be the domain admin
+     * @return array
+     */
+    public function addAdmin(array $domains, string $password, string $password2, string $username)
     {
         return $this->MailCowAPI->post('add/domain-admin', [
             "active" => 1,
@@ -42,6 +50,12 @@ class DomainAdmin
         ]);
     }
 
+    /**
+     * editDomainAdminACL - Edit the ACLs for Domain Admins
+     * @param string $acl - The ACL in question to edit
+     * @param array $permissions - An array of permissions. See $this->permissions, e.g. ["smtp_ip_access", "domain_desc", "alias_domain", ...]
+     * @return array
+     */
     public function editDomainAdminACL(string $acl, array $permissions)
     {
         return $this->MailCowAPI->post('edit/da-acl', [
@@ -50,6 +64,7 @@ class DomainAdmin
         ]);
     }
 
+    
     private function computePermissions(array $permissions)
     {
         $computed = [];
@@ -85,5 +100,6 @@ class DomainAdmin
     public function getAllDomainAdmins(){
         return $this->MailCowAPI->get('get/domain-admin/all');
     }
+
 
 }

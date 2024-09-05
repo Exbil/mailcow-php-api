@@ -10,6 +10,13 @@ class AddressRewrite {
         $this->MailCowAPI = $MailCowAPI;
     }
 
+    /**
+     * addBccMap - Forward all mails for a domain to a specified mailbox via bcc
+     * @param string $destination Mailbox to recieve all emails in bcc
+     * @param string $local_destination The domain the mails should be forwarded from
+     * @param string $type e.g. "sender"
+     * @return array
+     */
     public function addBccMap(string $destination, string $local_destination, string $type = "sender"){
         return $this->MailCowAPI->post('add/bcc', [
             "active" => 1,
@@ -19,6 +26,12 @@ class AddressRewrite {
         ]);
     }
 
+    /**
+     * addRecipientMap - Redirect mails from one to another mailbox
+     * @param string $recipient_new The mailbox to forward the mails to
+     * @param string $recipient_old The mailbox to forward the mails from
+     * @return array
+     */
     public function addRecipientMap(string $recipient_new, string $recipient_old){
         return $this->MailCowAPI->post('add/recipient_map', [
             "active" => 1,

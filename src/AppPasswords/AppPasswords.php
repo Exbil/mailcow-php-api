@@ -33,6 +33,15 @@ class AppPasswords {
         return $this->MailCowAPI->get('get/app-passwd/all/' . $mail);
     }
 
+    /**
+     * createPassword - Create an App password
+     * @param string $username Mailbox to create app password for
+     * @param string $appName App name
+     * @param string $appPasswd
+     * @param string $appPasswd2 Same password, just again
+     * @param array $protocols See class defined constants, e.g. [AppPasswords::PROTOCOL_POP3, AppPasswords::PROTOCOL_SMTP]
+     * @return array
+     */
     public function createPassword(string $username, string $appName, string $appPasswd, string $appPasswd2, array $protocols = null){
         return $this->MailCowAPI->post('add/app-passwd', [
             "username" => $username,

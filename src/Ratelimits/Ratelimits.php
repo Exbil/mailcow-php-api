@@ -18,6 +18,13 @@ class Ratelimits {
         return $this->MailCowAPI->get('get/rl-domain/' . $domain);
     }
 
+    /**
+     * editMailboxRatelimits
+     * @param string $mailbox
+     * @param int $rl_value
+     * @param string $rl_frame Hours, Days, Minutes in short, e.g. "h", "d", ...
+     * @return array
+     */
     public function editMailboxRatelimits(string $mailbox, int $rl_value = 10, string $rl_frame = "h"){
         return $this->MailCowAPI->post('edit/rl-mbox', [
             "attr" => [
@@ -30,6 +37,13 @@ class Ratelimits {
         ]);
     }
 
+        /**
+     * editDomainRatelimits
+     * @param string $domain
+     * @param int $rl_value
+     * @param string $rl_frame Hours, Days, Minutes in short, e.g. "h", "d", ...
+     * @return array
+     */
     public function editDomainRatelimits(string $domain, int $rl_value = 10, string $rl_frame = "h"){
         return $this->MailCowAPI->post('edit/rl-domain', [
             "attr" => [

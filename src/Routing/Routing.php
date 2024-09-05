@@ -18,6 +18,14 @@ class Routing {
         ]);
     }
 
+    /**
+     * addTransportMap
+     * @param string $destination Some Domain name, e.g. "domain.tld
+     * @param string $nexthop Mailserver with port, e.g. "mail.domain.tld:25"
+     * @param string $password
+     * @param string $username
+     * @return array
+     */
     public function addTransportMap(string $destination, string $nexthop, string $password, string $username){
         return $this->MailCowAPI->post('add/transport', [
             "active" => 1,
