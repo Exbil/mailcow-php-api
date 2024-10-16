@@ -2,7 +2,7 @@
 
 namespace Exbil\Mailcow\MailBoxes;
 
-use Exbil\Mailcow\MailCowAPI;
+use Exbil\MailCowAPI;
 
 class MailBoxes
 {
@@ -31,7 +31,7 @@ class MailBoxes
      */
     public function getMailBox(string $domain)
     {
-        return $this->MailCowAPI->get('get/mailbox/' . $domain);
+        return $this->MailCowAPI->get('get/mailbox/all/' . $domain);
     }
 
     /**
@@ -99,5 +99,22 @@ class MailBoxes
     public function deleteMailBox(array $mails)
     {
         return $this->MailCowAPI->post('delete/mailbox', $mails);
+    }
+
+    public function editPushoverSettings(string $username, bool $active, int $evaluate_x_prio, string $key, int $only_x_prio, string $senders, string $senders_regex, string $text, string $title, string $token){
+        return $this->MailCowAPI->post('edit/pushover', [
+            "attr" => [
+                "active" => (int)$active,
+                "evaluate_x_prio" => $evaluate_x_prio,
+                "key" => $key,
+                "only_x_prio" => $only_x_prio,
+                "senders" => $senders,
+                "senders_regex" => $senders_regex,
+                "text" => $text,
+                "title" => $title,
+                "token" => $token
+            ],
+            "items" => $username
+        ]);
     }
 }

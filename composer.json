@@ -17,6 +17,15 @@
             "name": "Efe Bagri",
             "email": "composer@exbil.net",
             "homepage": "https://www.exbil.net"
+        },
+        {
+            "name": "Kees van Kempen",
+            "homepage": "https://github.com/keessaus"
+        },
+        {
+            "name": "Bryan Böhnke-Avan",
+            "email": "github@openducks.org",
+            "homepage": "https://openducks.org"
         }
     ],
     "support": {
@@ -34,6 +43,8 @@
     "autoload": {
         "psr-4": {
             "Exbil\\Mailcow\\": "src/"
-        }
+        },
+        "files": ["src/MailCowAPI.php", "src/Credentials.php"],
+        "classmap": ["src"]
     }
 }

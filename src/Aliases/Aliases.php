@@ -2,7 +2,7 @@
 
 namespace Exbil\Mailcow\Aliases;
 
-use Exbil\Mailcow\MailCowAPI;
+use Exbil\MailCowAPI;
 
 class Aliases
 {
