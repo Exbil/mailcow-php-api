@@ -14,7 +14,7 @@
     "license": "GPL-3.0-or-later",
     "authors": [
         {
-            "name": "Efe Bagri",
+            "name": "Efe Bağrı",
             "email": "composer@exbil.net",
             "homepage": "https://www.exbil.net"
         }
@@ -24,12 +24,12 @@
         "source": "https://github.com/exbil/mailcow-php-api"
     },
     "require": {
-        "php": ">=7.2",
-        "guzzlehttp/guzzle": "^7.5",
+        "php": ">=8.3",
+        "guzzlehttp/guzzle": "^7.9.2",
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.0"
+        "phpunit/phpunit": "^12.0.10"
     },
     "autoload": {
         "psr-4": {
