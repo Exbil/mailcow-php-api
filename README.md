@@ -4,7 +4,7 @@
 
 ### Requirements
 
-* [**PHP 7.2+**](https://www.php.net/downloads.php)
+* [**PHP 8.3+**](https://www.php.net/downloads.php)
 * Extensions: [Composer](https://getcomposer.org/), [PHP-JSON](https://www.php.net/manual/en/book.json.php)
 
 In the root of your project execute the following:
