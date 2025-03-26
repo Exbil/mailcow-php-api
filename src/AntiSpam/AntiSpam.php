@@ -1,6 +1,6 @@
 <?php
 
-namespace Exbil\AntiSpam;
+namespace Exbil\Mailcow\AntiSpam;
 
 use Exbil\MailCowAPI;
 

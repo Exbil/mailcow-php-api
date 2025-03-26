@@ -1,6 +1,6 @@
 <?php
 
-namespace Exbil\Aliases;
+namespace Exbil\Mailcow\Aliases;
 
 use Exbil\MailCowAPI;
 
