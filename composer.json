@@ -1,5 +1,5 @@
 {
-    "name": "ente/mailcow-php-api",
+    "name": "exbil/mailcow-php-api",
     "type": "library",
     "description": "A full-featured implementation of the MailCow API",
     "keywords": [
