@@ -25,10 +25,20 @@ class AppPasswords {
         define("PROTOCOL_SIEVE", "sieve_access");
     }
 
+    /**
+     * `deletePassword()` - Deletes an app password with given ID
+     * @param string $id The ID
+     * @return array
+     */
     public function deletePassword(string $id){
         return $this->MailCowAPI->post('delete/app-passwd', [$id]);
     }
 
+    /**
+     * `getPasswordsFromMailbox()` - Returns the app passwords for a mailbox
+     * @param string $mail The full mailbox name, e.g. 'mail@mailcow.tld'
+     * @return array
+     */
     public function getPasswordsFromMailbox(string $mail){
         return $this->MailCowAPI->get('get/app-passwd/all/' . $mail);
     }
@@ -53,6 +63,11 @@ class AppPasswords {
         ]);
     }
 
+    /**
+     * internal Helper function
+     * @param array $protocols
+     * @return array
+     */
     private function computeProtocolsArray(array $protocols){
         $computed = [];
         foreach($protocols as $protocol){

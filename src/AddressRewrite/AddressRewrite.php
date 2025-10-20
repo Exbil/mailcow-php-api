@@ -40,18 +40,38 @@ class AddressRewrite {
         ]);
     }
 
+    /**
+     * `deleteBccMap()` - Delete a BCC mapping
+     * @param int $id The ID of the mapping
+     * @return array
+     */
     public function deleteBccMap(int $id){
         return $this->MailCowAPI->post('delete/bcc', [$id]);
     }
 
+    /**
+     * `deleteRecipientMap()` - Delete a Recipient mapping
+     * @param int $id The ID of the mapping
+     * @return array
+     */
     public function deleteRecipientMap(int $id){
         return $this->MailCowAPI->post('delete/recipient_map', [$id]);
     }
 
+    /**
+     * `getBccMap()` - Returns the configuration of a BCC mapping
+     * @param int $id The ID of the mapping
+     * @return array
+     */
     public function getBccMap(int $id){
         return $this->MailCowAPI->get('get/bcc/' . $id);
     }
 
+    /**
+     * `getRecipientMap()` - Returns the configuration of a Recipient mapping
+     * @param int $id The ID of the mapping
+     * @return array
+     */
     public function getRecipientMap(int $id){
         return $this->MailCowAPI->get('get/recipient_map/' . $id);
     }

@@ -316,7 +316,7 @@ class MailCowAPI
 
     public function CORS (): CORS {
         if(!$this->CORSHandler) $this->CORSHandler = new CORS($this);
-        return $this->SSOHandler;
+        return $this->CORSHandler;
     }
 
     public function IdentityProvider (): IdentityProvider {

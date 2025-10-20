@@ -33,9 +33,15 @@ class Logs {
         define("SERVICE_WATCHDOG", "watchdog");
     }
 
+    /**
+     * `getLog()` - Get the log of specified service
+     * @param string $type The type of log, e.g 'acme' or use the class constants, e.g. Logs::SERVICE_ACME
+     * @param int $count
+     * @return string
+     */
     public function getLog(string $type, int $count = 50){
         if(in_array($type, $this->services)){
-            $this->MailCowAPI->get('get/logs/' . $type . "/" . $count);
+            return $this->MailCowAPI->get('get/logs/' . $type . "/" . $count);
         } else {
             return "Specified service does not exist, therefore no log file can be found.";
         }
