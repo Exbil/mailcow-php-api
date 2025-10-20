@@ -90,4 +90,18 @@ class Domains
     {
         return $this->MailCowAPI->post('delete/domain', [$domain]);
     }
+
+    /**
+     * @return array|string
+     */
+    public function updateFooter(string $domain, string $html, string $plain, ?array $mbox_exclude){
+        return $this->MailCowAPI->post('edit/domain/footer', [
+            "items" => $domain,
+            "attr" => [
+                "html" => $html,
+                "plain" => $plain,
+                "mbox_exclude" => $mbox_exclude
+            ]
+            ]);
+    }
 }

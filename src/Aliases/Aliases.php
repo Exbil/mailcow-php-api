@@ -49,7 +49,7 @@ class Aliases
     /**
      * @return array|string
      */
-    public function updateAlias(string $alias_id, string $alias_address, string $alias_dest, string $private_comment = null, string $public_comment = null)
+    public function updateAlias(string $alias_id, string $alias_address, string $alias_dest, int $active = 1, string $private_comment = null, string $public_comment = null)
     {
         return $this->MailCowAPI->post('edit/alias', [
             "items" => [
@@ -58,7 +58,7 @@ class Aliases
             "attr" => [
                 "address" => $alias_address,
                 "goto" => $alias_dest,
-                "active" => "1",
+                "active" => (string) $active,
                 "private_comment" => $private_comment,
                 "public_comment" => $public_comment,
             ]]);
