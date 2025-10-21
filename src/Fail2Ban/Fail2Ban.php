@@ -32,6 +32,10 @@ class Fail2Ban {
         ]);
     }
 
+    /**
+     * `getConfig()` - Returns the fail2ban configuration
+     * @return array
+     */
     public function getConfig(){
         return $this->MailCowAPI->get('get/fail2ban');
     }

@@ -24,6 +24,9 @@ use Exbil\Mailcow\oAuth\oAuth;
 use Exbil\Mailcow\Routing\Routing;
 use Exbil\Mailcow\AddressRewrite\AddressRewrite;
 use Exbil\Mailcow\TLSPolicy\TLSPolicy;
+use Exbil\Mailcow\SSO\SSO;
+use Exbil\Mailcow\CORS\CORS;
+use Exbil\Mailcow\IdentityProvider\IdentityProvider;
 use Psr\Http\Message\ResponseInterface;
 
 class MailCowAPI
@@ -50,6 +53,9 @@ class MailCowAPI
     private $domainAdminHandler;
     private $addressRewriteHandler;
     private $tlsPolicyHandler;
+    private $SSOHandler;
+    private $CORSHandler;
+    private $IdentityProviderHandler;
 
     /**
      * MailCowAPI constructor.
@@ -301,6 +307,21 @@ class MailCowAPI
     public function tlsPolicy (): TLSPolicy {
         if(!$this->tlsPolicyHandler) $this->tlsPolicyHandler = new TLSPolicy($this);
         return $this->tlsPolicyHandler;
+    }
+
+    public function SSO (): SSO {
+        if(!$this->SSOHandler) $this->SSOHandler = new SSO($this);
+        return $this->SSOHandler;
+    }
+
+    public function CORS (): CORS {
+        if(!$this->CORSHandler) $this->CORSHandler = new CORS($this);
+        return $this->CORSHandler;
+    }
+
+    public function IdentityProvider (): IdentityProvider {
+        if(!$this->IdentityProviderHandler) $this->IdentityProviderHandler = new IdentityProvider($this);
+        return $this->IdentityProviderHandler;
     }
 
 

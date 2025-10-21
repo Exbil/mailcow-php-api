@@ -64,7 +64,11 @@ class DomainAdmin
         ]);
     }
 
-    
+    /**
+     * internal Helper function
+     * @param array $permissions
+     * @return array
+     */
     private function computePermissions(array $permissions)
     {
         $computed = [];
@@ -76,11 +80,26 @@ class DomainAdmin
         return $computed;
     }
 
+    /**
+     * ``deleteDomainAdmin()` - Deletes a domain admin
+     * @param string $username Username of the admin
+     * @return array
+     */
     public function deleteDomainAdmin(string $username){
         return $this->MailCowAPI->post('delete/domain-admin', [$username]);
     }
 
-    public function editDomainAdmin(string $username, array $domains, int $active = 1, int $username_new = null, string $password = null, string $password2 = null){
+    /**
+     * `editDomainAdmin()` - Edits the account of an domain admin
+     * @param string $username The domain admin's username
+     * @param array $domains The domains the admin can administrate
+     * @param int $active Activate (1) or disable (0) admin account
+     * @param string $username_new The domain admin's new username (optionally)
+     * @param string $password The domain admin's new password
+     * @param string $password2 The domain admin's new password for confirmation
+     * @return array
+     */
+    public function editDomainAdmin(string $username, array $domains, int $active = 1, string $username_new = null, string $password = null, string $password2 = null){
         return $this->MailCowAPI->post('edit/domain-admin', [
             "items" => [
                 $username
@@ -97,6 +116,10 @@ class DomainAdmin
         ]);
     }
 
+    /**
+     * `getAllDomainAdmins()` - Returns all domain admins for all domains
+     * @return array
+     */
     public function getAllDomainAdmins(){
         return $this->MailCowAPI->get('get/domain-admin/all');
     }

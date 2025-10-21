@@ -21,10 +21,20 @@ class oAuth {
         ]);
     }
 
+    /**
+     * `deleteClient()` - Delete a oAuth2 client with given ID
+     * @param int $id
+     * @return array
+     */
     public function deleteClient(int $id){
         return $this->MailCowAPI->post('delete/oauth2-client', [$id]);
     }
 
+    /**
+     * `getClient()` - Get oAuth2 client configuration
+     * @param int $id
+     * @return array
+     */
     public function getClient(int $id){
         return $this->MailCowAPI->get('get/oauth2-client/' . $id);
     }

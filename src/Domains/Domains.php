@@ -20,6 +20,7 @@ class Domains
 
 
     /**
+     * `getDomains()` - Returns all domains configuration
      * @return array|string
      */
     public function getDomains()
@@ -28,6 +29,7 @@ class Domains
     }
 
     /**
+     * `getDomain()` - Returns the configuration of given domain
      * @return array|string
      */
     public function getDomain(string $domain)
@@ -36,6 +38,11 @@ class Domains
     }
 
     /**
+     * `addDomain()` - Creates a new domain
+     * @param string $domain The domain name, e.g. 'mailcow.tld'
+     * @param string $description A description for the domain
+     * @param int $aliases Max. amount of aliases for this domain
+     * @param int $mailboxes Max. amount of mailboxes for this domain
      * @return array|string
      */
     public function addDomain(string $domain, string $description, int $aliases, int $mailboxes)
@@ -58,6 +65,11 @@ class Domains
     }
 
     /**
+     * `updateDomain()` - Updates given domain
+     * @param string $domain The domain name to update
+     * @param string $description A description for the domain
+     * @param string $aliases Max. amount of aliases for this domain
+     * @param string $mailboxes Max. amount of mailboxes for this domain
      * @return array|string
      */
     public function updateDomain(string $domain, string $description, int $aliases, int $mailboxes)
@@ -84,10 +96,30 @@ class Domains
     }
 
     /**
+     * `deleteDomain()` - Deletes given domain
+     * @param string $domain The domain name to delete
      * @return array|string
      */
     public function deleteDomains(string $domain)
     {
         return $this->MailCowAPI->post('delete/domain', [$domain]);
+    }
+
+    /**
+     * `updateFooter()` - Updates the domain-wide footer
+     * @param string $html Footer in HTML format
+     * @param string $plain Footer in plain text
+     * @param array $mbox_exclude Optional mailboxes to exclude to have this footer
+     * @return array|string
+     */
+    public function updateFooter(string $domain, string $html, string $plain, ?array $mbox_exclude){
+        return $this->MailCowAPI->post('edit/domain/footer', [
+            "items" => $domain,
+            "attr" => [
+                "html" => $html,
+                "plain" => $plain,
+                "mbox_exclude" => $mbox_exclude
+            ]
+            ]);
     }
 }

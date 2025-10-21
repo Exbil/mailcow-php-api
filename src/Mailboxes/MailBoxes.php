@@ -19,6 +19,7 @@ class MailBoxes
 
 
     /**
+     * `getMailBoxes()` - Returns all mailboxes
      * @return array|string
      */
     public function getMailBoxes()
@@ -27,6 +28,8 @@ class MailBoxes
     }
 
     /**
+     * `getMailBox` - Returns all mailboxes for given domain
+     * @param string $domain The domain name
      * @return array|string
      */
     public function getMailBox(string $domain)
@@ -35,7 +38,14 @@ class MailBoxes
     }
 
     /**
+     * `addMailBox()` - Add a new mailbox
      * @param string $mailname ONLY name | Example "mail" for "mail@domain.de"
+     * @param string $domain The domain name
+     * @param string $full_name User's full name
+     * @param string $password The mailbox' password
+     * @param int $active Enable (1) or disable (0) mailbox
+     * @param int $force_pw_update Force PW update on next login if set to 1
+     * @param string $quota Set the quota in MB for mailbox
      * @return array|string
      */
     public function addMailBox(string $mailname, string $domain, string $full_name, string $password, string $active = "1", string $force_pw_update = "1", string $quota = "1024")
@@ -55,6 +65,13 @@ class MailBoxes
     }
 
     /**
+     * `editMailBox()` - Edit a mailbox
+     * @param string $mail_address The mailbox to edit
+     * @param string $full_name The user's full name
+     * @param string $password The user's new password
+     * @param string $active Enable (1) or disable (0) mailbox
+     * @param string $force_pw_update Force PW update on next login if set to 1
+     * @param string $quota Set the quota in MB for mailbox
      * @return array|string
      */
     public function updateMailBox(string $mail_address, string $full_name, string $password, string $active = "1", string $force_pw_update = "0", string $quota = "1024")
@@ -79,6 +96,9 @@ class MailBoxes
     }
 
     /**
+     * `updateMailboxSpamScore()` - Update the mailbox' spam score
+     * @param string $email The mailbox to update
+     * @param string $score The score to set it to, e.g. '8,5'
      * @return array|string
      */
     public function updateMailboxSpamScore(string $email, string $score)
@@ -94,6 +114,8 @@ class MailBoxes
     }
 
     /**
+     * `deleteMailBox()` - Delete given mailbox
+     * @param string $mails The mailbox to delete
      * @return array|string
      */
     public function deleteMailBox(array $mails)
@@ -101,6 +123,19 @@ class MailBoxes
         return $this->MailCowAPI->post('delete/mailbox', $mails);
     }
 
+    /**
+     * `editPushoverSettings` - Edit the pushover settings for given mailbox
+     * @param string $username The mailbox 
+     * @param bool $active Enable (true) or disable (false) the pushover config
+     * @param int $evaluate_x_prio The evaluation prio, e.g. '0'
+     * @param string $key Your Pushover key
+     * @param int $only_x_prio Only sent Notification if X prio
+     * @param string $senders
+     * @param string $senders_regex
+     * @param string $text Custom text for your pushover notification
+     * @param string $title Custom title for your pushover notification
+     * @param string $token Your token from Pushover
+     */
     public function editPushoverSettings(string $username, bool $active, int $evaluate_x_prio, string $key, int $only_x_prio, string $senders, string $senders_regex, string $text, string $title, string $token){
         return $this->MailCowAPI->post('edit/pushover', [
             "attr" => [

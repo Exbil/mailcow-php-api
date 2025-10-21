@@ -19,6 +19,8 @@ class AntiSpam
 
 
     /**
+     * `getWhitelistPolicy()` - Returns the current whitelist policy for given domain
+     * @param string $domain The domain name
      * @return array|string
      */
     public function getWhitelistPolicy(string $domain)
@@ -27,6 +29,8 @@ class AntiSpam
     }
 
     /**
+     * `getBlacklistPolicy()` - Returns the current blacklist policy for given domain
+     * @param string $domain The domain name
      * @return array|string
      */
     public function getBlacklistPolicy(string $domain)
@@ -35,6 +39,9 @@ class AntiSpam
     }
 
     /**
+     * `addPolicy()` - Add a new domain policy
+     * @param string $object_list Either whitelist (wl) or blacklist (bl)
+     * @param string $object_from The name to either black- or whitelist, e.g. '*@somedomain.com'
      * @return array|string
      */
     public function addPolicy(string $domain, string $object_list, string $object_from)
@@ -47,6 +54,8 @@ class AntiSpam
     }
 
     /**
+     * `deletePolicy()` - Deletes a domain policy
+     * @param string $PolicyID The policy ID to delete
      * @return array|string
      */
     public function deletePolicy(array $PolicyID)
