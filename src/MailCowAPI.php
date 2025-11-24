@@ -70,7 +70,7 @@ class MailCowAPI
     }
 
 
-    public function setHttpClient(Client $httpClient = null)
+    public function setHttpClient(?Client $httpClient = null)
     {
         $this->httpClient = $httpClient ?: new Client([
             'allow_redirects' => false,
