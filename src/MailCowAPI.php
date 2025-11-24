@@ -78,7 +78,6 @@ class MailCowAPI
             'timeout' => 120,
             'http_errors' => false,
             'return_transfer' => true
-
         ]);
     }
     
