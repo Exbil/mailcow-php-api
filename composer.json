@@ -1,7 +1,7 @@
 {
     "name": "exbil/mailcow-php-api",
     "type": "library",
-    "description": "A full-featured implementation of the MailCow API",
+    "description": "A full-featured implementation of the MailCow API with configurable SSL verification and timeout settings",
     "keywords": [
         "php-api-client",
         "mailcow-api",
@@ -9,10 +9,12 @@
         "mailcow",
         "rest",
         "php",
-        "api"
+        "api",
+        "mail-server",
+        "email-api"
     ],
     "license": "GPL-3.0-or-later",
-    "version": "0.14.3",
+    "version": "0.15.0",
     "authors": [
         {
             "name": "Efe Bağrı",
@@ -31,15 +33,16 @@
     ],
     "support": {
         "issues": "https://github.com/exbil/mailcow-php-api/issues",
-        "source": "https://github.com/exbil/mailcow-php-api"
+        "source": "https://github.com/exbil/mailcow-php-api",
+        "docs": "https://github.com/exbil/mailcow-php-api#readme"
     },
     "require": {
-        "php": ">=8.3",
-        "guzzlehttp/guzzle": "^7.9.2",
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.5",
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.0.10"
+        "phpunit/phpunit": "^9.5|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -47,5 +50,11 @@
         },
         "files": ["src/MailCowAPI.php", "src/Credentials.php"],
         "classmap": ["src"]
-    }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
