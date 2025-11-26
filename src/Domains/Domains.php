@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Exbil\Mailcow\Domains;
 
 use Exbil\MailCowAPI;
@@ -39,60 +38,102 @@ class Domains
 
     /**
      * `addDomain()` - Creates a new domain
-     * @param string $domain The domain name, e.g. 'mailcow.tld'
-     * @param string $description A description for the domain
-     * @param int $aliases Max. amount of aliases for this domain
-     * @param int $mailboxes Max. amount of mailboxes for this domain
+     * @param string $domain Domain name, z.B. 'mailcow.tld'
+     * @param string $description Beschreibung der Domain
+     * @param int $aliases Maximalanzahl an Aliases
+     * @param int $mailboxes Maximalanzahl an Mailboxen
+     * @param int $defquota Standard-Quota in MB
+     * @param int $maxquota Maximal-Quota in MB
+     * @param int $active 1 = aktiv, 0 = deaktiviert
+     * @param int $rl_value Rate-Limit Wert
+     * @param string $rl_frame Rate-Limit Zeitrahmen, z.B. 's', 'm'
+     * @param int $backupmx Backup-MX aktiv (1) oder nicht (0)
+     * @param int $relay_all_recipients 1 = alle Empfänger durchreichen, 0 = nicht
+     * @param int $restart_sogo 1 = SOGo neu starten, 0 = nicht
      * @return array|string
      */
-    public function addDomain(string $domain, string $description, int $aliases, int $mailboxes)
-    {
-        return $this->MailCowAPI->post('add/domain', [
+    public function addDomain(
+        string $domain,
+        string $description,
+        int $aliases,
+        int $mailboxes,
+        int $defquota = 3072,
+        int $maxquota = 10240,
+        int $active = 1,
+        int $rl_value = 10,
+        string $rl_frame = "s",
+        int $backupmx = 0,
+        int $relay_all_recipients = 0,
+        int $restart_sogo = 1
+    ) {
+        $payload = [
             "domain" => $domain,
             "description" => $description,
             "aliases" => $aliases,
             "mailboxes" => $mailboxes,
-            "defquota" => "3072",
-            "maxquota" => "10240",
-            "quota" => "10240",
-            "active" => "1",
-            "rl_value" => "10",
-            "rl_frame" => "s",
-            "backupmx" => "0",
-            "relay_all_recipients" => "0",
-            "restart_sogo" => "1"
-        ]);
+            "defquota" => $defquota,
+            "maxquota" => $maxquota,
+            "quota" => $maxquota,
+            "active" => $active,
+            "rl_value" => $rl_value,
+            "rl_frame" => $rl_frame,
+            "backupmx" => $backupmx,
+            "relay_all_recipients" => $relay_all_recipients,
+            "restart_sogo" => $restart_sogo
+        ];
+
+        return $this->MailCowAPI->post('add/domain', $payload);
     }
 
     /**
-     * `updateDomain()` - Updates given domain
-     * @param string $domain The domain name to update
-     * @param string $description A description for the domain
-     * @param string $aliases Max. amount of aliases for this domain
-     * @param string $mailboxes Max. amount of mailboxes for this domain
+     * `updateDomain()` - Updates an existing domain
+     * @param string $domain Domain name, z.B. 'mailcow.tld'
+     * @param string $description Beschreibung der Domain
+     * @param int $aliases Maximalanzahl an Aliases
+     * @param int $mailboxes Maximalanzahl an Mailboxen
+     * @param int $defquota Standard-Quota in MB
+     * @param int $maxquota Maximal-Quota in MB
+     * @param int $active 1 = aktiv, 0 = deaktiviert
+     * @param int $rl_value Rate-Limit Wert
+     * @param string $rl_frame Rate-Limit Zeitrahmen
+     * @param int $backupmx Backup-MX aktiv (1) oder nicht (0)
+     * @param int $relay_all_recipients 1 = alle Empfänger durchreichen, 0 = nicht
+     * @param int $restart_sogo 1 = SOGo neu starten, 0 = nicht
      * @return array|string
      */
-    public function updateDomain(string $domain, string $description, int $aliases, int $mailboxes)
-    {
-        return $this->MailCowAPI->post('edit/domain', [
-            "items" => [
-                "domain" => $domain
-            ],
+    public function updateDomain(
+        string $domain,
+        string $description,
+        int $aliases,
+        int $mailboxes,
+        int $defquota = 3072,
+        int $maxquota = 10240,
+        int $active = 1,
+        int $rl_value = 10,
+        string $rl_frame = "s",
+        int $backupmx = 0,
+        int $relay_all_recipients = 0,
+        int $restart_sogo = 1
+    ) {
+        $payload = [
+            "items" => [$domain],
             "attr" => [
                 "description" => $description,
                 "aliases" => $aliases,
                 "mailboxes" => $mailboxes,
-                "defquota" => "3072",
-                "maxquota" => "10240",
-                "quota" => "10240",
-                "active" => "1",
-                "rl_value" => "10",
-                "rl_frame" => "s",
-                "backupmx" => "0",
-                "relay_all_recipients" => "0",
-                "restart_sogo" => "1"
+                "defquota" => $defquota,
+                "maxquota" => $maxquota,
+                "quota" => $maxquota,
+                "active" => $active,
+                "rl_value" => $rl_value,
+                "rl_frame" => $rl_frame,
+                "backupmx" => $backupmx,
+                "relay_all_recipients" => $relay_all_recipients,
+                "restart_sogo" => $restart_sogo
             ]
-        ]);
+        ];
+
+        return $this->MailCowAPI->post('edit/domain', $payload);
     }
 
     /**
