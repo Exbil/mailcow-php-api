@@ -92,27 +92,36 @@ class DomainAdmin
     /**
      * `editDomainAdmin()` - Edits the account of an domain admin
      * @param string $username The domain admin's username
-     * @param array $domains The domains the admin can administrate
+     * @param array|null $domains The domains the admin can administrate (null to keep current)
      * @param int $active Activate (1) or disable (0) admin account
-     * @param string $username_new The domain admin's new username (optionally)
-     * @param string $password The domain admin's new password
-     * @param string $password2 The domain admin's new password for confirmation
+     * @param string|null $username_new The domain admin's new username (null to keep current)
+     * @param string|null $password The domain admin's new password (null to keep current)
+     * @param string|null $password2 The domain admin's new password for confirmation
      * @return array
      */
-    public function editDomainAdmin(string $username, array $domains, int $active = 1, string $username_new = null, string $password = null, string $password2 = null){
+    public function editDomainAdmin(string $username, ?array $domains = null, int $active = 1, ?string $username_new = null, ?string $password = null, ?string $password2 = null)
+    {
+        $attr = [
+            'active' => (string) $active,
+        ];
+
+        // Only add optional fields if provided
+        if ($username_new !== null) {
+            $attr['username_new'] = $username_new;
+        }
+
+        if ($domains !== null) {
+            $attr['domains'] = $domains;
+        }
+
+        if ($password !== null) {
+            $attr['password'] = $password;
+            $attr['password2'] = $password2 ?? $password;
+        }
+
         return $this->MailCowAPI->post('edit/domain-admin', [
-            "items" => [
-                $username
-            ],
-            "attr" => [
-                "active" => [$active]
-            ],
-            "username_new" => $username_new,
-            "domains" => [
-                $domains
-            ],
-            "password" => $password,
-            "password2" => $password2
+            'items' => [$username],
+            'attr' => $attr,
         ]);
     }
 
@@ -120,9 +129,37 @@ class DomainAdmin
      * `getAllDomainAdmins()` - Returns all domain admins for all domains
      * @return array
      */
-    public function getAllDomainAdmins(){
+    public function getAllDomainAdmins()
+    {
         return $this->MailCowAPI->get('get/domain-admin/all');
     }
 
+    /**
+     * `getDomainAdmin()` - Returns a specific domain admin by username
+     * @param string $username The domain admin's username
+     * @return array|object
+     */
+    public function getDomainAdmin(string $username)
+    {
+        return $this->MailCowAPI->get('get/domain-admin/' . urlencode($username));
+    }
 
+    /**
+     * `getDomainAdminsByDomain()` - Returns all domain admins for a specific domain
+     * @param string $domain The domain name
+     * @return array Filtered list of domain admins
+     */
+    public function getDomainAdminsByDomain(string $domain): array
+    {
+        $allAdmins = $this->getAllDomainAdmins();
+
+        if (!is_array($allAdmins)) {
+            return [];
+        }
+
+        return array_values(array_filter($allAdmins, function ($admin) use ($domain) {
+            $adminDomains = (array) ($admin->domains ?? $admin['domains'] ?? []);
+            return in_array($domain, $adminDomains, true);
+        }));
+    }
 }

@@ -39,7 +39,17 @@ class TLSPolicy {
      * @param int $id ID of the mapping
      * @return array
      */
-    public function getPolicyMap(int $id){
-        return $this->MailCowAPI->post('delete/tls-policy-map/' . $id);
+    public function getPolicyMap(int $id)
+    {
+        return $this->MailCowAPI->get('get/tls-policy-map/' . $id);
+    }
+
+    /**
+     * `getAllPolicyMaps()` - Returns all TLS policy maps
+     * @return array
+     */
+    public function getAllPolicyMaps()
+    {
+        return $this->MailCowAPI->get('get/tls-policy-map/all');
     }
 }
