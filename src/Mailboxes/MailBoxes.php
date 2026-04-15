@@ -185,13 +185,23 @@ class MailBoxes
     }
 
     /**
+     * `getMailboxSpamScore()` - Return the mailbox' spam score
+     * @param string $email The mailbox to query
+     * @return array|string
+     */
+
+    public function getMailboxSpamScore(string $email){
+        return $this->MailCowAPI->get('get/spam-score/' . urlencode($email));
+    }
+
+    /**
      * `deleteMailBox()` - Delete given mailbox
      * @param string $mails The mailbox to delete
      * @return array|string
      */
-    public function deleteMailBox(array $mails)
+    public function deleteMailBox(string $mails)
     {
-        return $this->MailCowAPI->post('delete/mailbox', $mails);
+        return $this->MailCowAPI->post('delete/mailbox', [$mails]);
     }
 
     /**
@@ -221,6 +231,53 @@ class MailBoxes
                 "token" => $token
             ],
             "items" => $username
+        ]);
+    }
+
+    /**
+     * `editMailboxACL` - Edits the given mailbox' ACL
+     * @param string $mailbox The mailbox to edit the ACL for
+     * @param array $acl The ACL to set, e.g. ["spam_alias", "eas_reset", "quarantine", ...]
+     * @return array|string
+     */
+    public function editMailboxACL(string $mailbox, array $acl){
+        return $this->MailCowAPI->post('edit/mailbox-acl', [
+            "items" => $mailbox,
+            "attr" => [
+                "user_acl" => $acl
+            ]
+        ]);
+    }
+
+    /**
+     * `updateMailboxQuarantineNotification` - Update the quarantine notification settings for given mailbox
+     * @param string $mailbox The mailbox to edit the quarantine notification settings for
+     * @param array $anyOf Include these items in the notifications, e.g. acme@inc.com
+     * @param string $notifyTime The time frame for the notifications, e.g. "hourly"
+     * @return array|string
+     */
+    public function updateMailboxQuarantineNotification(string $mailbox, array $anyOf, string $notifyTime = "hourly"){
+        return $this->MailCowAPI->post('edit/quarantine-notification', [
+            "items" => $mailbox,
+            "attr" => [
+                "any_of" => $anyOf
+            ],
+            "quarantine_notification" => $notifyTime
+        ]);
+    }
+
+    /**
+     * `updateMailboxCustomAttributes()` - Update custom attributes for given mailbox
+     * @param string $mailbox The mailbox to edit the custom attributes for
+     * @param array $attributes The attributes to update, e.g. ["custom1", "custom2", ...]
+     * @param array $value The values to set for the attributes, e.g. ["value1", "value2", ...]
+     * @return array|string
+     */
+    public function updateMailboxCustomAttributes(string $mailbox, array $attributes, array $value){
+        return $this->MailCowAPI->post('edit/mailbox', [
+            "items" => $mailbox,
+            "attribute" => $attributes,
+            "value" => $value
         ]);
     }
 }

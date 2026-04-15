@@ -26,6 +26,15 @@ class Aliases
     }
 
     /**
+     * `getTimeLimitedAliases()` - Returns all time-limited aliases for given mailbox
+     * @param string $mailboxId The mailbox ID to filter time-limited aliases for
+     * @return array|string
+     */
+    public function getTimeLimitedAliases(string $mailboxId){
+        return $this->MailCowAPI->get('get/alias/time_limited_aliases/' . $mailboxId);
+    }
+
+    /**
      * `getAliasesByDomain()` - Returns all aliases for a specific domain
      * @param string $domain The domain name
      * @return array Filtered list of aliases
@@ -55,6 +64,20 @@ class Aliases
     public function getAlias(string $aliasID)
     {
         return $this->MailCowAPI->get('get/alias/' . $aliasID);
+    }
+
+    /**
+     * `createTimeLimitedAlias()` - Creates a time-limited alias for given mailbox
+     * @param string $mailboxId The mailbox ID to create the time-limited alias for
+     * @param string $domain The domain for the alias
+     * @return array|string
+     */
+    public function createTimeLimitedAlias(string $mailboxId, string $domain)
+    {
+        return $this->MailCowAPI->post('add/time_limited_alias', [
+            'username' => $mailboxId,
+            'domain' => $domain
+        ]);
     }
 
     /**

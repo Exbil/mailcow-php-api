@@ -26,6 +26,7 @@ use Exbil\Mailcow\TLSPolicy\TLSPolicy;
 use Exbil\Mailcow\SSO\SSO;
 use Exbil\Mailcow\CORS\CORS;
 use Exbil\Mailcow\IdentityProvider\IdentityProvider;
+use Exbil\Mailcow\SyncJobs\SyncJobs;
 use Psr\Http\Message\ResponseInterface;
 
 class MailCowAPI
@@ -58,6 +59,7 @@ class MailCowAPI
     private ?SSO $SSOHandler = null;
     private ?CORS $CORSHandler = null;
     private ?IdentityProvider $IdentityProviderHandler = null;
+    private ?SyncJobs $syncJobsHandler = null;
 
     /**
      * MailCowAPI constructor.
@@ -555,5 +557,18 @@ class MailCowAPI
             $this->IdentityProviderHandler = new IdentityProvider($this);
         }
         return $this->IdentityProviderHandler;
+    }
+
+    /**
+     * Get SyncJobs handler
+     *
+     * @return SyncJobs
+     */
+    public function syncJobs(): SyncJobs
+    {
+        if (!$this->syncJobsHandler) {
+            $this->syncJobsHandler = new SyncJobs($this);
+        }
+        return $this->syncJobsHandler;
     }
 }

@@ -163,4 +163,15 @@ class Domains
             ]
             ]);
     }
+
+    /**
+     * `deleteDomainTag()` - Deletes given domain tag
+     * @param string $domain The domain name to delete the tag from
+     * @param array $tags The tags to delete
+     * @return array|string
+     * 
+     */
+    public function deleteDomainTag(string $domain, array $tags){
+        return $this->MailCowAPI->post('delete/domain/tag/' . urlencode($domain), $tags);
+    }
 }
