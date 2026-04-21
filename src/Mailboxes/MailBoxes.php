@@ -69,7 +69,9 @@ class MailBoxes
         string $quota = "1024",
         bool $tls_enforce_in = true,
         bool $tls_enforce_out = true,
-        bool $sogo_access = true
+        bool $sogo_access = true,
+        ?string $authsource = null,
+        ?string $tags = null
     ) {
         return $this->MailCowAPI->post('add/mailbox', [
             'local_part' => $mailname,
@@ -83,6 +85,8 @@ class MailBoxes
             'tls_enforce_in' => $tls_enforce_in ? '1' : '0',
             'tls_enforce_out' => $tls_enforce_out ? '1' : '0',
             'sogo_access' => $sogo_access ? '1' : '0',
+            'authsource' => $authsource ?? 'mailcow',
+            'tags' => $tags ?? '',
         ]);
     }
 
@@ -196,12 +200,12 @@ class MailBoxes
 
     /**
      * `deleteMailBox()` - Delete given mailbox
-     * @param string $mails The mailbox to delete
+     * @param array $mails The mailbox(es) to delete
      * @return array|string
      */
-    public function deleteMailBox(string $mails)
+    public function deleteMailBox(array $mails)
     {
-        return $this->MailCowAPI->post('delete/mailbox', [$mails]);
+        return $this->MailCowAPI->post('delete/mailbox', $mails);
     }
 
     /**
@@ -279,5 +283,15 @@ class MailBoxes
             "attribute" => $attributes,
             "value" => $value
         ]);
+    }
+
+    /**
+     * `deleteMailboxTags()` - Delete tags from given mailbox
+     * @param string $mailbox The mailbox to delete the tags from
+     * @param array $tags The tags to delete, e.g. ["tag1", "tag2", ...]
+     * @return array|string
+     */
+    public function deleteMailboxTags(string $mailbox, array $tags){
+        return $this->MailCowAPI->post('delete/mailbox/tags/' . $mailbox, $tags);
     }
 }
