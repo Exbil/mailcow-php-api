@@ -13,7 +13,7 @@
         "mail-server",
         "email-api"
     ],
-    "license": "GPL-3.0-or-later",
+    "license": "MIT",
     "version": "0.15.0",
     "authors": [
         {
