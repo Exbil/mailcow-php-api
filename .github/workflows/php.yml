@@ -1,32 +1,49 @@
-name: PHP Composer
+name: CI
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  test:
+    name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Update Composer dependencies
-        run: composer update --no-interaction --no-progress
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+          php-version: ${{ matrix.php }}
+          extensions: json, curl
+          coverage: none
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-lock
+
+      - name: Install runtime dependencies
+        run: composer update --no-dev --prefer-dist --no-progress --no-interaction
+
+      - name: Lint PHP source
+        run: find src -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: Run tests
+        run: |
+          if [ -n "$(find tests -name '*Test.php' 2>/dev/null)" ]; then
+            composer update --prefer-dist --no-progress --no-interaction
+            config=phpunit.xml
+            [ -f phpunit.xml.dist ] && config=phpunit.xml.dist
+            [ -f tests/phpunit.xml ] && config=tests/phpunit.xml
+            echo "Running PHPUnit with $config"
+            vendor/bin/phpunit -c "$config"
+          else
+            echo "No test files under tests/, skipping PHPUnit"
+          fi
