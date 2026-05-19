@@ -69,7 +69,9 @@ class MailBoxes
         string $quota = "1024",
         bool $tls_enforce_in = true,
         bool $tls_enforce_out = true,
-        bool $sogo_access = true
+        bool $sogo_access = true,
+        ?string $authsource = null,
+        ?string $tags = null
     ) {
         return $this->MailCowAPI->post('add/mailbox', [
             'local_part' => $mailname,
@@ -83,6 +85,8 @@ class MailBoxes
             'tls_enforce_in' => $tls_enforce_in ? '1' : '0',
             'tls_enforce_out' => $tls_enforce_out ? '1' : '0',
             'sogo_access' => $sogo_access ? '1' : '0',
+            'authsource' => $authsource ?? 'mailcow',
+            'tags' => $tags ?? '',
         ]);
     }
 
@@ -185,8 +189,18 @@ class MailBoxes
     }
 
     /**
+     * `getMailboxSpamScore()` - Return the mailbox' spam score
+     * @param string $email The mailbox to query
+     * @return array|string
+     */
+
+    public function getMailboxSpamScore(string $email){
+        return $this->MailCowAPI->get('get/spam-score/' . urlencode($email));
+    }
+
+    /**
      * `deleteMailBox()` - Delete given mailbox
-     * @param string $mails The mailbox to delete
+     * @param array $mails The mailbox(es) to delete
      * @return array|string
      */
     public function deleteMailBox(array $mails)
@@ -222,5 +236,62 @@ class MailBoxes
             ],
             "items" => $username
         ]);
+    }
+
+    /**
+     * `editMailboxACL` - Edits the given mailbox' ACL
+     * @param string $mailbox The mailbox to edit the ACL for
+     * @param array $acl The ACL to set, e.g. ["spam_alias", "eas_reset", "quarantine", ...]
+     * @return array|string
+     */
+    public function editMailboxACL(string $mailbox, array $acl){
+        return $this->MailCowAPI->post('edit/mailbox-acl', [
+            "items" => $mailbox,
+            "attr" => [
+                "user_acl" => $acl
+            ]
+        ]);
+    }
+
+    /**
+     * `updateMailboxQuarantineNotification` - Update the quarantine notification settings for given mailbox
+     * @param string $mailbox The mailbox to edit the quarantine notification settings for
+     * @param array $anyOf Include these items in the notifications, e.g. acme@inc.com
+     * @param string $notifyTime The time frame for the notifications, e.g. "hourly"
+     * @return array|string
+     */
+    public function updateMailboxQuarantineNotification(string $mailbox, array $anyOf, string $notifyTime = "hourly"){
+        return $this->MailCowAPI->post('edit/quarantine-notification', [
+            "items" => $mailbox,
+            "attr" => [
+                "any_of" => $anyOf
+            ],
+            "quarantine_notification" => $notifyTime
+        ]);
+    }
+
+    /**
+     * `updateMailboxCustomAttributes()` - Update custom attributes for given mailbox
+     * @param string $mailbox The mailbox to edit the custom attributes for
+     * @param array $attributes The attributes to update, e.g. ["custom1", "custom2", ...]
+     * @param array $value The values to set for the attributes, e.g. ["value1", "value2", ...]
+     * @return array|string
+     */
+    public function updateMailboxCustomAttributes(string $mailbox, array $attributes, array $value){
+        return $this->MailCowAPI->post('edit/mailbox', [
+            "items" => $mailbox,
+            "attribute" => $attributes,
+            "value" => $value
+        ]);
+    }
+
+    /**
+     * `deleteMailboxTags()` - Delete tags from given mailbox
+     * @param string $mailbox The mailbox to delete the tags from
+     * @param array $tags The tags to delete, e.g. ["tag1", "tag2", ...]
+     * @return array|string
+     */
+    public function deleteMailboxTags(string $mailbox, array $tags){
+        return $this->MailCowAPI->post('delete/mailbox/tags/' . $mailbox, $tags);
     }
 }

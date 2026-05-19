@@ -29,27 +29,34 @@ class Domains
 
     /**
      * `getDomain()` - Returns the configuration of given domain
+     * @param string $domain The domain name to retrieve the configuration for
+     * @param ?array $tags Optional array of tags to filter the domains by
      * @return array|string
      */
-    public function getDomain(string $domain)
+    public function getDomain(string $domain, ?array $tags = null)
     {
-        return $this->MailCowAPI->get('get/domain/' . $domain);
+        $url = 'get/domain/' . $domain;
+        if ($tags !== null) {
+            $url .= '?' . http_build_query(['tags' => $tags]);
+        }
+        return $this->MailCowAPI->get($url);
     }
 
     /**
      * `addDomain()` - Creates a new domain
-     * @param string $domain Domain name, z.B. 'mailcow.tld'
-     * @param string $description Beschreibung der Domain
-     * @param int $aliases Maximalanzahl an Aliases
-     * @param int $mailboxes Maximalanzahl an Mailboxen
+     * @param string $domain Domain name, e.g.. 'mailcow.tld'
+     * @param string $description Description for the domain
+     * @param int $aliases Maximum amount of aliases allowed for this domain
+     * @param int $mailboxes Maximum amount of mailboxes allowed for this domain
      * @param int $defquota Standard-Quota in MB
-     * @param int $maxquota Maximal-Quota in MB
-     * @param int $active 1 = aktiv, 0 = deaktiviert
-     * @param int $rl_value Rate-Limit Wert
-     * @param string $rl_frame Rate-Limit Zeitrahmen, z.B. 's', 'm'
-     * @param int $backupmx Backup-MX aktiv (1) oder nicht (0)
-     * @param int $relay_all_recipients 1 = alle Empfänger durchreichen, 0 = nicht
-     * @param int $restart_sogo 1 = SOGo neu starten, 0 = nicht
+     * @param int $maxquota Maximum-Quota in MB
+     * @param int $active 1 = aktiv, 0 = disabled
+     * @param int $rl_value Rate-Limit Value
+     * @param string $rl_frame Rate-Limit Time frame, e.g. 's', 'm'
+     * @param int $backupmx Enable (1) or disable (0) Backup-MX
+     * @param int $relay_all_recipients 1 = relay all recipients, 0 = do not relay all recipients
+     * @param int $restart_sogo 1 = Restart SoGO, 0 = do not restart SOGO,
+     * @param ?array $tags Optional array of tags to assign to the domain
      * @return array|string
      */
     public function addDomain(
@@ -64,7 +71,8 @@ class Domains
         string $rl_frame = "s",
         int $backupmx = 0,
         int $relay_all_recipients = 0,
-        int $restart_sogo = 1
+        int $restart_sogo = 1,
+        ?array $tags = null
     ) {
         $payload = [
             "domain" => $domain,
@@ -79,7 +87,8 @@ class Domains
             "rl_frame" => $rl_frame,
             "backupmx" => $backupmx,
             "relay_all_recipients" => $relay_all_recipients,
-            "restart_sogo" => $restart_sogo
+            "restart_sogo" => $restart_sogo,
+            "tags" => $tags
         ];
 
         return $this->MailCowAPI->post('add/domain', $payload);
@@ -162,5 +171,16 @@ class Domains
                 "mbox_exclude" => $mbox_exclude
             ]
             ]);
+    }
+
+    /**
+     * `deleteDomainTag()` - Deletes given domain tag
+     * @param string $domain The domain name to delete the tag from
+     * @param array $tags The tags to delete
+     * @return array|string
+     * 
+     */
+    public function deleteDomainTag(string $domain, array $tags){
+        return $this->MailCowAPI->post('delete/domain/tag/' . urlencode($domain), $tags);
     }
 }

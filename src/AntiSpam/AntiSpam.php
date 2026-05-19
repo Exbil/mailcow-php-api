@@ -55,7 +55,7 @@ class AntiSpam
 
     /**
      * `deletePolicy()` - Deletes a domain policy
-     * @param string $PolicyID The policy ID to delete
+     * @param array $PolicyID The policy ID to delete
      * @return array|string
      */
     public function deletePolicy(array $PolicyID)
