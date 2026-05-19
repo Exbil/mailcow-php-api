@@ -13,8 +13,7 @@
         "mail-server",
         "email-api"
     ],
-    "license": "GPL-3.0-or-later",
-    "version": "0.15.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Efe Bağrı",
